@@ -1,33 +1,32 @@
-#include "myplugin/PluginConfig.hpp"
-#include "myplugin/models/ExampleModel.hpp"
+#include "example-realtime/PluginConfig.hpp"
+#include "example-realtime/ExamplePlugin.hpp"
 #include "rfcommon/PluginInterface.hpp"
 
-// Gets called when the main application is about to create your view.
-// The model is created first, and the view is created by calling model->createView().
-static rfcommon::Plugin* createExampleModel(RFPluginFactory* factory)
+// Gets called when the main application wants to create your plugin
+static rfcommon::Plugin* createExamplePlugin(RFPluginFactory* factory)
 {
-    return new ExampleModel(factory);
+    return new ExamplePlugin(factory);
 }
 
-// Gets called when the main application removes your model from its
+// Gets called when the main application removes your plugin from its
 // list. You have to delete the object here.
-static void destroyExampleModel(rfcommon::Plugin* model)
+static void destroyExamplePlugin(rfcommon::Plugin* model)
 {
     delete model;
 }
 
 // This is a list of create/destroy functions which the main application uses
-// to instantiate your objects. You can have multiple "plugins" in a single
+// to instantiate your plugins. You can have multiple plugins in a single
 // shared libary, but in this case we only have one.
 static RFPluginFactory factories[] = {
-    {createExampleModel, destroyExampleModel, RFPluginType::STANDALONE,
-    {"Example Plugin (Standalone)",
+    {createExamplePlugin, destroyExamplePlugin, RFPluginType::REALTIME,
+    {"Example Plugin (Realtime)",
      "misc > misc",  // category > sub-category
      "Author Name",  // your name
      "Author#5387, @Author, author@author.com",  // various contact details
      "This is an example plugin, doesn't do much!"}},
 
-    {0}
+    {0}  // List must be terminated with a NULL or bad things happen!
 };
 
 static int start(uint32_t version, const char** error)
@@ -48,4 +47,3 @@ static void stop()
 }
 
 DEFINE_PLUGIN(factories, start, stop)
-

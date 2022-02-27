@@ -15,8 +15,8 @@ public:
      * This is called by ReFramed to create an instance of your view.
      * It is possible that this gets called more than once, for example if
      * ReFramed wants to add your view to different parts of the program.
-     *
-     * Typically
+     * Your view should be designed in a way such that multiple views can
+     * share the same underlying model.
      */
     QWidget* createView() override;
 
