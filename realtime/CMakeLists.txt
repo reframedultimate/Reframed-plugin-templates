@@ -27,5 +27,6 @@ reframed_add_plugin (plugin-${PLUGIN_NAME}
         "include/${PLUGIN_NAME}/views/ExampleView.hpp")
 
 if (${REFRAMED_plugin-${PLUGIN_NAME}})
+    # Do any plugin-specific dependency stuff here
 endif ()
 

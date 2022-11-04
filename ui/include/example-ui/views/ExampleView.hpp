@@ -1,6 +1,6 @@
 #pragma once
 
-#include "example-realtime/listeners/ExampleListener.hpp"
+#include "example-ui/listeners/ExampleListener.hpp"
 #include <QWidget>
 
 // Forward declare the class created by Qt designer
@@ -21,10 +21,10 @@ public:
     ~ExampleView();
 
 private slots:
+    void onButtonPressed();
 
 private:
-    void onStatsUpdated() override;
-    void onConnectionStateChanged() override;
+    void onCounterChanged() override;
 
 private:
     // We hold a weak reference to the model (ExampleModel) so we can listen

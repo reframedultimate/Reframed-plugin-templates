@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rfcommon/SessionListener.hpp"
+#include "rfcommon/FrameDataListener.hpp"
 #include "rfcommon/ListenerDispatcher.hpp"
 #include "rfcommon/Reference.hpp"
 
@@ -10,14 +10,14 @@ namespace rfcommon {
 
 class ExampleListener;
 
-class ExampleModel : public rfcommon::SessionListener
+class ExampleModel : public rfcommon::FrameDataListener
 {
 public:
     void setConnectedState(bool connected);
     bool isConnected() const { return isConnected_;  }
 
     void setSession(rfcommon::Session* session);
-    void clearSession(rfcommon::Session* session);
+    void clearSession();
 
     // Getters, used by view
     float totalDamagePlayer1() const { return totalDamage_[0]; }
@@ -37,18 +37,11 @@ private:
     void notifyStatsUpdated();
 
 private:
-    // RunningGameSession events
-    void onRunningGameSessionPlayerNameChanged(int playerIdx, const rfcommon::SmallString<15>& name) override {}
-    void onRunningGameSessionSetNumberChanged(rfcommon::SetNumber number) override {}
-    void onRunningGameSessionGameNumberChanged(rfcommon::GameNumber number) override {}
-    void onRunningGameSessionFormatChanged(const rfcommon::SetFormat& format) override {}
-    void onRunningGameSessionWinnerChanged(int winnerPlayerIdx) override {}
+    // This will get called every time a new unique frame is received from the
+    // Nintendo Switch
+    void onFrameDataNewUniqueFrame(int frameIdx, const rfcommon::Frame<4>& frame) override;
 
-    // RunningSession events
-    void onRunningSessionNewUniquePlayerState(int playerIdx, const rfcommon::PlayerState& state) override;
-    void onRunningSessionNewPlayerState(int playerIdx, const rfcommon::PlayerState& state) override {}
-    void onRunningSessionNewUniqueFrame(const rfcommon::SmallVector<rfcommon::PlayerState, 8>& states) override {}
-    void onRunningSessionNewFrame(const rfcommon::SmallVector<rfcommon::PlayerState, 8>& states) override {}
+    void onFrameDataNewFrame(int frameIdx, const rfcommon::Frame<4>& frame) override {}
 
 private:
     rfcommon::Reference<rfcommon::Session> session_;

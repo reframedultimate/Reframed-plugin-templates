@@ -1,5 +1,5 @@
-#include "example-realtime/PluginConfig.hpp"
-#include "example-realtime/ExamplePlugin.hpp"
+#include "example-ui/PluginConfig.hpp"
+#include "example-ui/ExamplePlugin.hpp"
 #include "rfcommon/PluginInterface.hpp"
 
 // Gets called when the main application wants to create your plugin
@@ -9,6 +9,7 @@ static rfcommon::Plugin* createExamplePlugin(
         rfcommon::Log* log,
         rfcommon::UserMotionLabels* userLabels,
         rfcommon::Hash40Strings* hash40Strings)
+
 {
     return new ExamplePlugin(factory);
 }
@@ -22,17 +23,15 @@ static void destroyExamplePlugin(rfcommon::Plugin* model)
 
 // OR together all of the interfaces this plugin implements here. This is used
 // by ReFramed to sort your plugin into the proper locations
-static RFPluginType examplePluginTypes =
-        RFPluginType::UI |
-        RFPluginType::REPLAY |
-        RFPluginType::REALTIME;
+static RFPluginType examplePluginType =
+        RFPluginType::UI;
 
 // This is a list of create/destroy functions which the main application uses
 // to instantiate your plugins. You can have multiple plugins in a single
 // shared libary, but in this case we only have one.
 static RFPluginFactory factories[] = {
-    {createExamplePlugin, destroyExamplePlugin, examplePluginTypes,
-    {"Example Plugin (Realtime)",
+    {createExamplePlugin, destroyExamplePlugin, examplePluginType,
+    {"Example Plugin (UI)",
      "misc > misc",  // category > sub-category
      "Author Name",  // your name
      "Author#5387, @Author, author@author.com",  // various contact details
